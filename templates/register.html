@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}Register — LosBlancos Zone{% endblock %}
+
+{% block content %}
+<div class="auth-wrapper">
+  <div class="auth-hero">
+    <a herf="https://chat.whatsapp.com/BgiCMN3p1vI7XVeJLqi9xD?mode=hqctswa" tagret="_blank" class="hero-icon">
+      <img src="{{ url_for('static', filename='images/logo.png') }}"
+      style="height: 38px; width: auto; border-radius:50%;" />
+    </a>
+    <h1 class="hero-title">LosBlancos <span class="hero-accent">Zone</span></h1>
+    <p class="hero-sub">Join the competition · Predict · Win!</p>
+  </div>
+
+  <div class="auth-card">
+    <h2 class="card-title">Create Account</h2>
+    <p class="card-sub">Sign up to start predicting</p>
+
+    <form action="{{ url_for('auth.register') }}" method="POST" class="auth-form">
+      <div class="form-group">
+        <label>Username <span class="required">*</span></label>
+        <input type="text" name="username" placeholder="Choose a username" required maxlength="80" />
+      </div>
+      <div class="form-group">
+        <label>Gmail <span class="required">*</span></label>
+        <input type="email" name="email" placeholder="yourname@gmail.com" required />
+      </div>
+      <div class="form-group">
+        <label>Password <span class="required">*</span></label>
+        <input type="password" name="password" placeholder="At least 6 characters" required minlength="6" />
+      </div>
+      <div class="form-group">
+        <label>Confirm Password <span class="required">*</span></label>
+        <input type="password" name="confirm_password" placeholder="Re-enter password" required />
+      </div>
+      <div class="form-group">
+        <label>Date of Birth <span class="optional">(optional)</span></label>
+        <input type="date" name="dob" />
+      </div>
+      <button type="submit" class="btn-submit">Create Account 🚀</button>
+    </form>
+
+    <p class="auth-switch">
+      Already have an account? <a href="{{ url_for('auth.login') }}">Sign in</a>
+    </p>
+  </div>
+</div>
+{% endblock %}

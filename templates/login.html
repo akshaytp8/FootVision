@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}Login — LosBlancos Zone{% endblock %}
+
+{% block content %}
+<div class="auth-wrapper">
+  <div class="auth-hero">
+    <span class="hero-icon">
+      <a herf="https://chat.whatsapp.com/BgiCMN3p1vI7XVeJLqi9xD?mode=hqctswa" tagret="_blank">
+        <img src="{{ url_for('static', filename='images/logo.png') }}"
+        style="height: 38px; width: auto; border-radius:50%;" />
+      </a>
+    </span>
+    <h1 class="hero-title">LosBlancos <span class="hero-accent">Zone</span></h1>
+    <p class="hero-sub">Football Prediction Platform · May 2026</p>
+  </div>
+
+  <div class="auth-card">
+    <h2 class="card-title">Welcome Back</h2>
+    <p class="card-sub">Sign in to make your predictions</p>
+
+    <form action="{{ url_for('auth.login') }}" method="POST" class="auth-form">
+      <div class="form-group">
+        <label for="identifier">Username or Email</label>
+        <input type="text" id="identifier" name="identifier"
+               placeholder="Enter username or email" required />
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password"
+               placeholder="Enter password" required />
+      </div>
+      <button type="submit" class="btn-submit">Sign In ⚽</button>
+    </form>
+
+    <p class="auth-switch">
+      No account? <a href="{{ url_for('auth.register') }}">Create one here</a>
+    </p>
+  </div>
+</div>
+{% endblock %}

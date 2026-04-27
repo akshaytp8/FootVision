@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% block title %}LosBlancos Zone{% endblock %}</title>
+  <link rel="icon" href="{{ url_for('static', filename='images/favicon.ico') }}" type="image/x-icon" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="nav-brand">
+      <!--
+        LOGO: Replace the span block below with:
+        <img src="{{ url_for('static', filename='images/logo.png') }}"
+             alt="LosBlancos Zone" style="height:42px;" />
+      -->
+      <a href="https://chat.whatsapp.com/BgiCMN3p1vI7XVeJLqi9xD?mode=hqctswa" class="logo-link" target="_blank" title="Join our WhatsApp Group!">
+        <img src="{{ url_for('static', filename='images/logo.png') }}"
+        style="height: 38px; width: auto;" />
+        <span class="logo-text">LosBlancos<span class="logo-accent">Zone</span></span>
+      </a>
+    </div>
+
+    <div class="nav-right">
+
+      <!-- ============================================================
+           SUPPORTER LOGO
+           When clicked → shows Instagram and WhatsApp links.
+
+           TO UPDATE:
+             1. Replace testing_supporter_logo.svg with your real logo
+                (keep the same filename, or update the src below)
+             2. Update the Instagram URL in the popup below
+             3. Update the WhatsApp URL in the popup below
+           ============================================================ -->
+      <div class="supporter-wrapper">
+        <button class="supporter-btn" id="supporterBtn"
+                title="Our Supporter — Click to visit">
+          <img src="{{ url_for('static', filename='images/testing_supporter_logo.png') }}"
+               alt="Supporter" class="supporter-logo" />
+        </button>
+
+        <!-- Popup shown when supporter logo is clicked -->
+        <div class="supporter-popup" id="supporterPopup">
+          <p class="popup-title">Our Supporter</p>
+
+          <!-- ↓ UPDATE THIS Instagram link ↓ -->
+          <a href="https://www.instagram.com/amdk__official?igsh=bHU1c3pmYm03OXcy"
+             target="_blank" class="popup-link popup-instagram">
+            📸 Instagram
+          </a>
+
+          <!-- ↓ UPDATE THIS WhatsApp link ↓ -->
+          <a href="https://whatsapp.com/channel/0029VacZEe7EquiJQeqElP0V"
+             target="_blank" class="popup-link popup-whatsapp">
+            💬 WhatsApp Channel
+          </a>
+        </div>
+      </div>
+
+      <!-- Nav links -->
+      <ul class="nav-links">
+        {% if session.get('user_id') %}
+          <li><a href="{{ url_for('leaderboard.leaderboard') }}">Leaderboard</a></li>
+          <li><a href="{{ url_for('auth.logout') }}" class="btn-logout">Logout</a></li>
+          <li class="nav-user">👤 {{ session.get('username') }}</li>
+        {% else %}
+          <li><a href="{{ url_for('auth.login') }}">Login</a></li>
+          <li><a href="{{ url_for('auth.register') }}" class="btn-primary">Sign Up</a></li>
+        {% endif %}
+      </ul>
+
+    </div>
+  </nav>
+
+  <!-- FLASH MESSAGES -->
+  <div class="flash-container">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="flash flash-{{ category }}">
+            <span>{{ message }}</span>
+            <button class="flash-close" onclick="this.parentElement.remove()">✕</button>
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+  </div>
+
+  <!-- PAGE CONTENT -->
+  <main class="main-content">
+    {% block content %}{% endblock %}
+  </main>
+
+  <!-- FOOTER — kept as May 2026 (official launch date) -->
+  <footer class="footer">
+    <p>⚽ <strong>LosBlancos Zone</strong> &nbsp;|&nbsp; Football Prediction Platform &nbsp;|&nbsp; May 2026</p>
+    <p class="footer-sub">Platform is for learning purpose—not professional advice.</p>
+  </footer>
+
+  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

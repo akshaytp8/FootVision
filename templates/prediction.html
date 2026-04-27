@@ -1,0 +1,130 @@
+{% extends "base.html" %}
+{% block title %}Predict – {{ match.home_team }} vs {{ match.away_team }}{% endblock %}
+
+{% block content %}
+
+<!-- Match header -->
+<section class="predict-header">
+  <span class="competition-tag">{{ match.competition }}</span>
+  <p class="match-dt">📅 {{ match.match_date }} &nbsp;&nbsp; 🕐 {{ match.match_time_ist }}</p>
+  <p class="match-venue-small">🏟 {{ match.venue }}</p>
+  {% if countdown %}<p class="predict-countdown">⏳ {{ countdown }} to submit</p>{% endif %}
+
+  <div class="predict-teams">
+    <div class="pteam">
+      {% if match.home_logo_url %}
+        <img src="{{ url_for('static', filename='images/' ~ match.home_logo_url) }}"
+             alt="{{ match.home_team }}" class="pteam-logo" onerror="this.style.display='none';" />
+      {% else %}<span class="pteam-emoji">⚽</span>{% endif %}
+      <span class="pteam-name">{{ match.home_team }}</span>
+      <span class="pteam-role">HOME</span>
+    </div>
+
+    <span class="predict-vs">VS</span>
+
+    <div class="pteam">
+      {% if match.away_logo_url %}
+        <img src="{{ url_for('static', filename='images/' ~ match.away_logo_url) }}"
+             alt="{{ match.away_team }}" class="pteam-logo" onerror="this.style.display='none';" />
+      {% else %}<span class="pteam-emoji">⚽</span>{% endif %}
+      <span class="pteam-name">{{ match.away_team }}</span>
+      <span class="pteam-role">AWAY</span>
+    </div>
+  </div>
+</section>
+
+<!-- ML probabilities -->
+<section class="ml-section">
+  <h3 class="ml-title">🤖 AI Match Prediction</h3><br>
+  <div class="prob-bars">
+    <div class="prob-row">
+      <span class="prob-label">🏠 {{ match.home_team }} Win</span>
+      <div class="prob-bar-track"><div class="prob-bar prob-win" style="width:{{ win_pct }}%"></div></div>
+      <span class="prob-pct">{{ win_pct }}%</span>
+    </div>
+    <div class="prob-row">
+      <span class="prob-label">🤝 Draw</span>
+      <div class="prob-bar-track"><div class="prob-bar prob-draw" style="width:{{ draw_pct }}%"></div></div>
+      <span class="prob-pct">{{ draw_pct }}%</span>
+    </div>
+    <div class="prob-row">
+      <span class="prob-label">✈ {{ match.away_team }} Win</span>
+      <div class="prob-bar-track"><div class="prob-bar prob-loss" style="width:{{ loss_pct }}%"></div></div>
+      <span class="prob-pct">{{ loss_pct }}%</span>
+    </div>
+  </div>
+</section>
+
+<!-- Prediction form -->
+<section class="pred-form-section">
+  <h3 class="form-title">🎯 Your Prediction</h3>
+  {% if existing %}<p class="edit-notice">✏ You already predicted this — update below.</p>{% endif %}
+
+  <form action="{{ url_for('prediction.predict', match_id=match.id) }}"
+        method="POST" class="pred-form">
+
+    <!-- Score -->
+    <div class="form-section">
+      <h4>Predicted Score</h4>
+      <div class="score-inputs">
+        <div class="score-input-group">
+          <label>{{ match.home_team }}</label>
+          <input type="number" name="home_score" min="0" max="20" class="score-box" required
+                 value="{{ existing.predicted_home_score if existing else 1 }}" />
+        </div>
+        <span class="score-sep">–</span>
+        <div class="score-input-group">
+          <label>{{ match.away_team }}</label>
+          <input type="number" name="away_score" min="0" max="20" class="score-box" required
+                 value="{{ existing.predicted_away_score if existing else 1 }}" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Outcome -->
+    <div class="form-section">
+      <h4>Match Outcome</h4>
+      <div class="outcome-options">
+        <label class="outcome-label {% if existing and existing.predicted_outcome == 'home_win' %}selected{% endif %}">
+          <input type="radio" name="outcome" value="home_win" required
+            {% if existing and existing.predicted_outcome == 'home_win' %}checked
+            {% elif not existing %}checked{% endif %} />
+          🏠 {{ match.home_team }} Win
+        </label>
+        <label class="outcome-label {% if existing and existing.predicted_outcome == 'draw' %}selected{% endif %}">
+          <input type="radio" name="outcome" value="draw"
+            {% if existing and existing.predicted_outcome == 'draw' %}checked{% endif %} />
+          🤝 Draw
+        </label>
+        <label class="outcome-label {% if existing and existing.predicted_outcome == 'away_win' %}selected{% endif %}">
+          <input type="radio" name="outcome" value="away_win"
+            {% if existing and existing.predicted_outcome == 'away_win' %}checked{% endif %} />
+          ✈ {{ match.away_team }} Win
+        </label>
+      </div>
+    </div>
+
+    <!-- Scorer -->
+    <div class="form-section">
+      <h4>Goal Scorer <span class="optional">(Pick the player most likely to <span style="font-weight: bold;">Score First</span>.)</span></h4>
+      <select name="scorer" class="scorer-select">
+        <option value="">— Select a player —</option>
+        {% for player in scorer_list %}
+          <option value="{{ player }}"
+            {% if existing and existing.predicted_scorer == player %}selected{% endif %}>
+            {{ player }}
+          </option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div class="form-actions">
+      <button type="submit" class="btn-submit">
+        {% if existing %}💾 Update Prediction{% else %}🚀 Submit Prediction{% endif %}
+      </button>
+      <a href="{{ url_for('prediction.dashboard') }}" class="btn-cancel">← Back</a>
+    </div>
+  </form>
+</section>
+
+{% endblock %}

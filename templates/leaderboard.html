@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% block title %}Leaderboard — LosBlancos Zone{% endblock %}
+
+{% block content %}
+
+<section class="lb-header">
+  <h1>🏆 Leaderboard</h1>
+  <p>Competition: <strong>May 6 – May 30, 2026</strong></p>
+  {% if current_rank %}
+    <div class="your-rank">Your Rank: <strong>#{{ current_rank }}</strong></div>
+  {% endif %}
+  <a href="{{ url_for('prediction.dashboard') }}" class="btn-cancel" style="margin-top:10px; color:#FF9A98">← Back</a>
+</section>
+
+<section class="lb-section">
+  {% if rankings %}
+  <table class="lb-table">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Player</th>
+        <th>Points</th>
+        <th>Exact Scores</th>
+        <th>Correct Outcomes</th>
+        <th>Correct Scorers</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for row in rankings %}
+      <tr class="
+        {% if row.user_id == session.get('user_id') %}lb-current-user{% endif %}
+        {% if loop.index == 1 %}lb-gold{% endif %}
+        {% if loop.index == 2 %}lb-silver{% endif %}
+        {% if loop.index == 3 %}lb-bronze{% endif %}">
+        <td class="lb-rank">
+          {% if loop.index == 1 %}🥇
+          {% elif loop.index == 2 %}🥈
+          {% elif loop.index == 3 %}🥉
+          {% else %}{{ loop.index }}{% endif %}
+        </td>
+        <td class="lb-username">
+          {{ row.user.username }}
+          {% if row.user_id == session.get('user_id') %}<span class="you-tag">YOU</span>{% endif %}
+        </td>
+        <td class="lb-pts">{{ row.total_points }}</td>
+        <td>{{ row.exact_scores }}</td>
+        <td>{{ row.correct_outcomes }}</td>
+        <td>{{ row.correct_scorers }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+    <div class="empty-lb"><p>No scores yet. Points appear after each match is played.</p></div>
+  {% endif %}
+</section>
+
+<section class="lb-guide">
+  <h3>📋 How Points Work</h3>
+  <ul>
+    <li><strong>+100 pts</strong> — Exact score (e.g. you said 2-1, it finished 2-1)</li>
+    <li><strong>+30 pts</strong> — Correct outcome only (not given if you got +100)</li>
+    <li><strong>+50 pts</strong> — Correct first goal scorer</li>
+    <li><strong>+30 pts</strong> — Bonus: exact score AND scorer both correct</li>
+    <li class="max-pts">🔥 Maximum per match: <strong>180 pts</strong></li>
+  </ul>
+  <a href="{{ url_for('prediction.dashboard') }}" class="btn-cancel" style="margin-top:10px;">← Back</a>
+</section>
+
+{% endblock %}

@@ -1,0 +1,138 @@
+{% extends "base.html" %}
+{% block title %}Dashboard — LosBlancos Zone{% endblock %}
+
+{% block content %}
+
+<!-- Header -->
+<section class="dash-header">
+  <div class="dash-header-inner">
+    <div>
+      <h1>⚽ Welcome, <span class="accent">{{ session.get('username') }}</span>!</h1>
+      <p class="dash-sub">Predict before Kick off.<br>
+        Don't forget to join our group—click our logo or name at the top left! 🚀
+      </p>
+    </div>
+    <div class="pts-badge">
+      <span class="pts-number">{{ total_pts }}</span>
+      <span class="pts-label">Total Points</span>
+    </div>
+  </div>
+</section>
+
+<!-- Scoring rules -->
+<section class="rules-banner">
+  <h3>🏆 Scoring Rules</h3>
+  <div class="rules-grid">
+    <div class="rule-item"><span class="rule-pts">+100</span><span class="rule-desc">Exact Score</span></div>
+    <div class="rule-item"><span class="rule-pts">+30</span><span class="rule-desc">Correct Outcome</span></div>
+    <div class="rule-item"><span class="rule-pts">+50</span><span class="rule-desc">Correct Scorer</span></div>
+    <div class="rule-item rule-bonus"><span class="rule-pts">+30</span><span class="rule-desc">Everything Correct</span></div>
+  </div>
+</section>
+
+<!-- Matches -->
+<section class="matches-section">
+  <h2 class="section-title">📅 Competition Matches</h2>
+
+  {% for match in matches %}
+  {% set locked    = lock_status[match.id] %}
+  {% set cd        = countdowns[match.id] %}
+  {% set pred      = user_preds.get(match.id) %}
+
+  <div class="match-card {% if match.status == 'completed' %}match-completed{% elif locked %}match-locked{% endif %}">
+
+    <!-- Status badge -->
+    <div class="match-status-badge {% if match.status == 'completed' %}badge-completed{% elif locked %}badge-locked{% else %}badge-upcoming{% endif %}">
+      {% if match.status == 'completed' %}✅ Completed
+      {% elif locked %}🔒 Predictions Locked
+      {% else %}⏰ Upcoming{% endif %}
+    </div>
+
+    <!-- Countdown -->
+    {% if cd %}
+      <div class="countdown-tag">🕐 {{ cd }} to predict</div>
+    {% endif %}
+
+    <div class="match-meta">
+      <span class="match-competition">{{ match.competition }}</span>
+      <span class="match-datetime">📅 {{ match.match_date }} &nbsp;|&nbsp; 🕐 {{ match.match_time_ist }}</span>
+    </div>
+
+    <!-- Teams -->
+    <div class="match-teams">
+      <div class="team home-team">
+        {% if match.home_logo_url %}
+          <img src="{{ url_for('static', filename='images/' ~ match.home_logo_url) }}"
+               alt="{{ match.home_team }}" class="team-logo" onerror="this.style.display='none';" />
+        {% else %}
+          <div class="team-emoji-logo">⚽</div>
+        {% endif %}
+        <span class="team-name">{{ match.home_team }}</span>
+      </div>
+
+      <div class="match-score-center">
+        {% if match.status == 'completed' %}
+          <span class="final-score">{{ match.home_score }} – {{ match.away_score }}</span>
+          <span class="final-label">FT</span>
+        {% else %}
+          <span class="vs-badge">VS</span>
+        {% endif %}
+      </div>
+
+      <div class="team away-team">
+        {% if match.away_logo_url %}
+          <img src="{{ url_for('static', filename='images/' ~ match.away_logo_url) }}"
+               alt="{{ match.away_team }}" class="team-logo" onerror="this.style.display='none';" />
+        {% else %}
+          <div class="team-emoji-logo">⚽</div>
+        {% endif %}
+        <span class="team-name">{{ match.away_team }}</span>
+      </div>
+    </div>
+
+    <p class="match-venue">🏟 {{ match.venue }}</p>
+
+    <!-- User's prediction -->
+    {% if pred %}
+      <div class="user-prediction">
+        <span class="pred-label">Your Prediction:</span>
+        <strong>{{ match.home_team }} {{ pred.predicted_home_score }} – {{ pred.predicted_away_score }} {{ match.away_team }}</strong>
+        &nbsp;|&nbsp;
+        <span class="pred-outcome">
+          {% if pred.predicted_outcome == 'home_win' %}🏠 Home Win
+          {% elif pred.predicted_outcome == 'draw' %}🤝 Draw
+          {% else %}✈ Away Win{% endif %}
+        </span>
+        {% if pred.predicted_scorer %}&nbsp;|&nbsp; ⚽ {{ pred.predicted_scorer }}{% endif %}
+        {% if pred.is_scored %}&nbsp;|&nbsp; <span class="pts-earned">+{{ pred.points_earned }} pts</span>{% endif %}
+      </div>
+    {% endif %}
+
+    <!-- Action -->
+    {% if match.status == 'completed' %}
+      {% if pred and pred.is_scored %}
+        <div class="score-result {% if pred.points_earned >= 10 %}score-great{% elif pred.points_earned > 0 %}score-ok{% else %}score-zero{% endif %}">
+          You earned <strong>{{ pred.points_earned }} points</strong> for this match
+        </div>
+      {% elif not pred %}
+        <div class="no-pred-notice">You did not predict this match.</div>
+      {% endif %}
+
+    {% elif locked %}
+      {% if pred %}
+        <div class="locked-notice">🔒 Prediction locked in — waiting for result</div>
+      {% else %}
+        <div class="locked-notice">🔒 Predictions closed — match has started</div>
+      {% endif %}
+
+    {% else %}
+      <a href="{{ url_for('prediction.predict', match_id=match.id) }}"
+         class="btn-predict {% if pred %}btn-edit{% endif %}">
+        {% if pred %}✏ Edit Prediction{% else %}🎯 Make Prediction{% endif %}
+      </a>
+    {% endif %}
+
+  </div>
+  {% endfor %}
+</section>
+{% endblock %}
