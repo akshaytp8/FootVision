@@ -16,7 +16,6 @@ LOGOS — download team badges and save them here:
 
 from extensions import db
 
-
 def seed_matches():
     from models import Match
 
@@ -66,8 +65,7 @@ def seed_matches():
             away_logo_url  = "logos/realmadrid.png",
             status         = "upcoming",
             scorer_options = (
-                "Lamine Yamal, Raphinha, Robert Lewandowski, Pedri, Dani Olmo, "
-                "Vinicius Jr, Jude Bellingham, Rodrygo, Kylian Mbappe, Federico Valverde"
+                "No Goal, Kylian Mbappé (RMA), Robert Lewandowski (FCB), Vinícius Júnior (RMA), Rodrygo (RMA), Raphinha (FCB), Marcus Rashford (FCB), Ferran Torres (FCB), Brahim Díaz (RMA), Endrick (RMA), Ansu Fati (FCB), Lamine Yamal (FCB), Gonzalo García (RMA), Álvaro Leiva (RMA), Juan Hernández (FCB), Jude Bellingham (RMA), Dani Olmo (FCB), Pedri (FCB), Federico Valverde (RMA), Gavi (FCB), Arda Güler (RMA), Frenkie de Jong (FCB), Eduardo Camavinga (RMA), Aurélien Tchouaméni (RMA), Dani Ceballos (RMA), Fermin López (FCB), Marc Casadó (FCB), Roony Bardghji (FCB), Mario Martín (RMA), Manuel Ángel (RMA), Pol Fortuny (RMA), César Palacios (RMA), Franco Mastantuono (RMA), Daniel Meso (RMA), Roberto Martín (RMA), Daniel Yáñez (RMA), Jesús Fortea (RMA), Jorge Cestero (RMA), Thiago Pitarch (RMA), Xavi Espart (FCB), Marc Bernal (FCB), Toni Fernández (FCB), Tommy Marqués (FCB), Dani Carvajal (RMA), Trent Alexander-Arnold (RMA), Ferland Mendy (RMA), Éder Militão (RMA), Antonio Rüdiger (RMA), David Alaba (RMA), Fran García (RMA), Dean Huijsen (RMA), Raúl Asencio (RMA), David Jiménez (RMA), Diego Aguado (RMA), Joan Martínez (RMA), Víctor Valdepeñas (RMA), Laminé Fati João (RMA), João Cancelo (FCB), Jules Koundé (FCB), Ronald Araújo (FCB), Andreas Christensen (FCB), Alejandro Balde (FCB), Eric García (FCB), Gerard Martín (FCB), Pau Cubarsí (FCB), Héctor Fort (FCB), Álvaro Cortés (FCB), Jofre Torrents (FCB), Thibaut Courtois (RMA), Marc-André ter Stegen (FCB), Andriy Lunin (RMA), Wojciech Szczęsny (FCB), Iñaki Peña (FCB), Joan García (FCB), Sergio Mestre (RMA), Fran González (RMA), Javier Navarro (RMA), Ander Astralaga (FCB), Diego Kochen (FCB), Eder Aller (FCB)"
             ),
         ),
         # ── Match 4 ──────────────────────────────────────────────
@@ -82,9 +80,7 @@ def seed_matches():
             away_logo_url  = "logos/ucl.png",
             status         = "upcoming",
             scorer_options = (
-                "Bukayo Saka, Kai Havertz, Martin Odegaard, Antoine Griezmann, "
-                "Alvaro Morata, Harry Kane, Jamal Musiala, Kylian Mbappe, "
-                "Ousmane Dembele, Leroy Sane, Rodrigo De Paul, Vitinha"
+                "No Goal, Bukayo Saka (ARS), Ousmane Dembélé (PSG), Khvicha Kvaratskhelia (PSG), Gabriel Jesus (ARS), Gabriel Martinelli (ARS), Randal Kolo Muani (PSG), Gonçalo Ramos (PSG), Kai Havertz (ARS), Bradley Barcola (PSG), Désiré Doué (PSG), Noni Madueke (ARS), Reiss Nelson (ARS), Ethan Nwaneri (ARS), Charles Sagoe Jr (ARS), Brando Bailey-Joseph (ARS), Ibrahim Mbaye (PSG), Quentin Ndjantou (PSG), Wassim Slama (PSG), Martin Ødegaard (ARS), Declan Rice (ARS), Mikel Merino (ARS), Leandro Trossard (ARS), Fabián Ruiz (PSG), Vitinha (PSG), Lee Kang-in (PSG), João Neves (PSG), Warren Zaïre-Emery (PSG), Renato Sanches (PSG), Gabriel Moscardo (PSG), Senny Mayulu (PSG), Pedro Fernandez (PSG), Yanis Khafi (PSG), Christian Norgaard (ARS), Fabio Vieira (ARS), Myles Lewis-Skelly (ARS), Max Dowman (ARS), Andre Harriman-Annous (ARS), Ife Ibrahim (ARS), Achraf Hakimi (PSG), Nuno Mendes (PSG), Marquinhos (PSG), Lucas Hernández (PSG), Willian Pacho (PSG), Beraldo (PSG), Illia Zabarnyi (PSG), Yoram Zague (PSG), Naoufel El Hannach (PSG), Noham Kamara (PSG), David Boly (PSG), Ben White (ARS), William Saliba (ARS), Gabriel Magalhães (ARS), Riccardo Calafiori (ARS), Jurriën Timber (ARS), Jakub Kiwior (ARS), Piero Hincapié (ARS), Cristhian Mosquera (ARS), Joshua Nichols (ARS), Jaden Dixon (ARS), Marli Salmon (ARS), Gianluigi Donnarumma (PSG), Matvey Safonov (PSG), Lucas Chevalier (PSG), Renato Marin (PSG), Martin James (PSG), Arthur Vignaud (PSG), David Raya (ARS), Kepa Arrizabalaga (ARS), Karl Hein (ARS), Tommy Setford (ARS), Alexei Rojas (ARS), Jack Porter (ARS), Khari Ranson (ARS)"
             ),
         ),
     ]

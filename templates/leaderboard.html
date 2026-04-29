@@ -21,6 +21,7 @@
         <th>Player</th>
         <th>Points</th>
         <th>Exact Scores</th>
+        <th>Correct Goal Diff</th>
         <th>Correct Outcomes</th>
         <th>Correct Scorers</th>
       </tr>
@@ -44,6 +45,7 @@
         </td>
         <td class="lb-pts">{{ row.total_points }}</td>
         <td>{{ row.exact_scores }}</td>
+        <td>{{ row.correct_goal_diff }}</td>
         <td>{{ row.correct_outcomes }}</td>
         <td>{{ row.correct_scorers }}</td>
       </tr>
@@ -58,11 +60,11 @@
 <section class="lb-guide">
   <h3>📋 How Points Work</h3>
   <ul>
-    <li><strong>+100 pts</strong> — Exact score (e.g. you said 2-1, it finished 2-1)</li>
-    <li><strong>+30 pts</strong> — Correct outcome only (not given if you got +100)</li>
-    <li><strong>+50 pts</strong> — Correct first goal scorer</li>
-    <li><strong>+30 pts</strong> — Bonus: exact score AND scorer both correct</li>
-    <li class="max-pts">🔥 Maximum per match: <strong>180 pts</strong></li>
+    <li><strong>+70 pts</strong> — Exact score (e.g. you said 2-1, it finished 2-1)</li>
+    <li><strong>+30 pts</strong> — Correct Goal difference (only if exact score is wrong)</li>
+    <li><strong>+20 pts</strong> — Correct outcome only (only if exact score & GD are wrong)</li>
+    <li><strong>+35 pts</strong> — Correct first goal scorer</li>
+    <li class="max-pts">🔥 Maximum per match: <strong>105 pts</strong></li>
   </ul>
   <a href="{{ url_for('prediction.dashboard') }}" class="btn-cancel" style="margin-top:10px;">← Back</a>
 </section>

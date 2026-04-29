@@ -23,10 +23,10 @@
 <section class="rules-banner">
   <h3>🏆 Scoring Rules</h3>
   <div class="rules-grid">
-    <div class="rule-item"><span class="rule-pts">+100</span><span class="rule-desc">Exact Score</span></div>
-    <div class="rule-item"><span class="rule-pts">+30</span><span class="rule-desc">Correct Outcome</span></div>
-    <div class="rule-item"><span class="rule-pts">+50</span><span class="rule-desc">Correct Scorer</span></div>
-    <div class="rule-item rule-bonus"><span class="rule-pts">+30</span><span class="rule-desc">Everything Correct</span></div>
+    <div class="rule-item"><span class="rule-pts">+70</span><span class="rule-desc">Exact Score</span></div>
+    <div class="rule-item"><span class="rule-pts">+30</span><span class="rule-desc">Correct Goal Difference</span></div>
+    <div class="rule-item"><span class="rule-pts">+20</span><span class="rule-desc">Correct Outcome</span></div>
+    <div class="rule-item"><span class="rule-pts">+35</span><span class="rule-desc">Correct Scorer</span></div>
   </div>
 </section>
 
@@ -72,8 +72,12 @@
 
       <div class="match-score-center">
         {% if match.status == 'completed' %}
-          <span class="final-score">{{ match.home_score }} – {{ match.away_score }}</span>
-          <span class="final-label">FT</span>
+        <span class="final-score">{{ match.home_score }} – {{ match.away_score }}</span>
+        {% if match.penalty_home is not none and match.penalty_away is not none %}
+        <span class="final-label">AET · Pen {{ match.penalty_home }}–{{ match.penalty_away }}</span>
+  {% else %}
+    <span class="final-label">FT</span>
+  {% endif %}
         {% else %}
           <span class="vs-badge">VS</span>
         {% endif %}

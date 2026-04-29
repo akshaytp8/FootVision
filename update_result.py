@@ -18,10 +18,25 @@ MATCH IDs:
 
 # ── EDIT THESE 4 LINES ───────────────────────────────────────────
 
-MATCH_ID      = 1
-HOME_SCORE    = 2
-AWAY_SCORE    = 1
-ACTUAL_SCORER = "Bukayo Saka"   # must match exactly as shown in dropdown
+MATCH_ID      = 2
+HOME_SCORE    = 2   # 90 min + ET 30 min, score — used for points
+AWAY_SCORE    = 2
+ACTUAL_SCORER = "No Goal"  # must match exactly with scorer_options in seed_data.py for points to be awarded
+
+# OUTCOME — who actually won the tie overall?
+# Options: "home_win" | "away_win" | "draw"
+# For 2-leg UCL matches, this may differ from the score above.
+# Example: Arsenal lose 0-1 at home but won 3-0 in 1st leg
+#          → HOME_SCORE=0, AWAY_SCORE=1 but ACTUAL_OUTCOME="home_win"
+# For normal single matches, leave as None → auto-calculated from score
+ACTUAL_OUTCOME = "away_win"  # ← Set this only for 2-leg UCL matches where outcome differs from score   
+
+# Penalty shootout — leave as None if no penalties
+# Example: if Arsenal won 4-2 on penalties, set:
+#   PENALTY_HOME = 4
+#   PENALTY_AWAY = 2
+PENALTY_HOME  = None
+PENALTY_AWAY  = None
 
 # ─────────────────────────────────────────────────────────────────
 
@@ -58,15 +73,22 @@ def run():
         match.home_score   = HOME_SCORE
         match.away_score   = AWAY_SCORE
         match.actual_scorer = ACTUAL_SCORER
+        match.penalty_home  = PENALTY_HOME
+        match.penalty_away  = PENALTY_AWAY
         match.status       = "completed"
 
-        # Work out actual outcome
-        if HOME_SCORE > AWAY_SCORE:
-            actual_outcome = "home_win"
-        elif HOME_SCORE < AWAY_SCORE:
-            actual_outcome = "away_win"
+        # Use manually set outcome if provided, otherwise calculate from score
+        if ACTUAL_OUTCOME in ("home_win", "away_win", "draw"):
+            actual_outcome = ACTUAL_OUTCOME
+            print(f"  Outcome: {actual_outcome} (manually set)")
         else:
-            actual_outcome = "draw"
+            if HOME_SCORE > AWAY_SCORE:
+                actual_outcome = "home_win"
+            elif HOME_SCORE < AWAY_SCORE:
+                actual_outcome = "away_win"
+            else:
+                actual_outcome = "draw"
+            print(f"  Outcome: {actual_outcome} (auto from score)")
 
         # ── SCORING RULES ─────────────────────────────────────────
         # +10  exact score
@@ -88,17 +110,20 @@ def run():
             scorer  = (ACTUAL_SCORER and pred.predicted_scorer and
                        pred.predicted_scorer.strip().lower() ==
                        ACTUAL_SCORER.strip().lower())
+            goal_diff = (abs(pred.predicted_home_score - pred.predicted_away_score) ==
+                                 abs(HOME_SCORE - AWAY_SCORE))
 
             if exact:
-                pts += 100
-            elif outcome:
+                pts += 70
+                
+            elif goal_diff:
                 pts += 30
 
-            if scorer:
-                pts += 50
+            elif outcome:
+                pts += 20
 
-            if exact and scorer:
-                pts += 30   # everything correct bonus
+            if  scorer:
+                pts += 35
 
             pred.points_earned = pts
             pred.is_scored     = True
@@ -111,7 +136,8 @@ def run():
 
             us.total_points     += pts
             us.exact_scores     += 1 if exact else 0
-            us.correct_outcomes += 1 if (outcome and not exact) else 0
+            us.correct_goal_diff += 1 if (goal_diff and not exact) else 0
+            us.correct_outcomes += 1 if (outcome and not exact and not goal_diff) else 0
             us.correct_scorers  += 1 if scorer else 0
             us.updated_at        = datetime.utcnow()
 
@@ -126,4 +152,4 @@ def run():
 
 
 if __name__ == "__main__":
-    run()
+    run()                                                               

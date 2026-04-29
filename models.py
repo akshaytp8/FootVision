@@ -51,9 +51,12 @@ class Match(db.Model):
     status         = db.Column(db.String(20), default="upcoming")
 
     # Filled in after match by running update_result.py
-    home_score     = db.Column(db.Integer, nullable=True)
-    away_score     = db.Column(db.Integer, nullable=True)
-    actual_scorer  = db.Column(db.String(100), nullable=True)
+    home_score          = db.Column(db.Integer, nullable=True)
+    away_score          = db.Column(db.Integer, nullable=True)
+    actual_scorer       = db.Column(db.String(100), nullable=True)
+    # Penalty shootout scores (only for UCL — does NOT affect points)
+    penalty_home        = db.Column(db.Integer, nullable=True)
+    penalty_away        = db.Column(db.Integer, nullable=True)
 
     # Comma-separated player names for the goal scorer dropdown
     scorer_options = db.Column(db.Text, nullable=True)
@@ -94,6 +97,7 @@ class UserScore(db.Model):
     user_id          = db.Column(db.Integer, db.ForeignKey("users.id"), unique=True)
     total_points     = db.Column(db.Integer, default=0)
     exact_scores     = db.Column(db.Integer, default=0)
+    correct_goal_diff = db.Column(db.Integer, default=0)
     correct_outcomes = db.Column(db.Integer, default=0)
     correct_scorers  = db.Column(db.Integer, default=0)
     updated_at       = db.Column(db.DateTime, default=datetime.utcnow)

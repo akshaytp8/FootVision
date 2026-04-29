@@ -39,7 +39,6 @@ def generate_data(n=600):
 
     return np.array(X), np.array(y)
 
-
 def train():
     X, y = generate_data()
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
