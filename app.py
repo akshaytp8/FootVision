@@ -13,8 +13,6 @@ from flask import Flask
 from config import Config
 from extensions import db, bcrypt
 from seed_data import seed_matches
-from testing_match import seed_testing_match   # ← DELETE this line in May
-
 
 def create_app():
     app = Flask(__name__)
@@ -34,7 +32,6 @@ def create_app():
     with app.app_context():
         db.create_all()
         seed_matches()
-        seed_testing_match()   # ← DELETE this line in May
 
     return app
 

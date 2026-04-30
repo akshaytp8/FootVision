@@ -18,10 +18,10 @@ MATCH IDs:
 
 # ── EDIT THESE 4 LINES ───────────────────────────────────────────
 
-MATCH_ID      = 2
-HOME_SCORE    = 2   # 90 min + ET 30 min, score — used for points
-AWAY_SCORE    = 2
-ACTUAL_SCORER = "No Goal"  # must match exactly with scorer_options in seed_data.py for points to be awarded
+MATCH_ID      = 1
+HOME_SCORE    = 3   # 90 min + ET 30 min, score — used for points
+AWAY_SCORE    = 0
+ACTUAL_SCORER = "Bukayo Saka (ARS)"  # must match exactly with scorer_options in seed_data.py for points to be awarded
 
 # OUTCOME — who actually won the tie overall?
 # Options: "home_win" | "away_win" | "draw"
@@ -35,8 +35,8 @@ ACTUAL_OUTCOME = "away_win"  # ← Set this only for 2-leg UCL matches where out
 # Example: if Arsenal won 4-2 on penalties, set:
 #   PENALTY_HOME = 4
 #   PENALTY_AWAY = 2
-PENALTY_HOME  = None
-PENALTY_AWAY  = None
+PENALTY_HOME  = 2
+PENALTY_AWAY  = 4
 
 # ─────────────────────────────────────────────────────────────────
 
