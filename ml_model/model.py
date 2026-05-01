@@ -26,7 +26,7 @@ TEAM_STRENGTHS = {
     "Arsenal"           : 8.5,
     "Atletico Madrid"   : 8.3,
     "Bayern Munich"     : 8.9,
-    "PSG"               : 8.6,
+    "PSG"               : 9.2,
     "FC Barcelona"      : 8.8,
     "Real Madrid"       : 9.2,
     "UCL Final – Team A": 8.4,
