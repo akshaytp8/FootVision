@@ -1,13 +1,5 @@
 """
-add_match.py
-------------
 Adds new match(es) to the live database. NEVER deletes anything —
-existing matches, predictions, and points are always 100% safe to run
-this as many times as you need, whenever a new round's fixtures are
-confirmed.
-
-HOW TO USE
-----------
 1. Edit the NEW_MATCHES list below — paste in the Match(...) entries
    for the round that's just been confirmed (real team names, dates,
    logos, scorer lists).
@@ -23,11 +15,11 @@ from extensions import db
 from models import Match
 
 
-# ── EDIT THIS LIST EACH TIME A NEW ROUND IS CONFIRMED ─────────────
+# EDIT THIS LIST EACH TIME A NEW ROUND IS CONFIRMED 
 NEW_MATCHES = [
     Match(
-        home_team      = "TEAM A",              # ← real team name
-        away_team      = "TEAM B",               # ← real team name
+        home_team      = "TEAM A",            
+        away_team      = "TEAM B",             
         competition    = "THIRD PRICE – Match 31",
         match_date     = "2026-07-04",
         match_time_ist = "22:30 IST",
@@ -35,11 +27,11 @@ NEW_MATCHES = [
         home_logo_url  = "logos/teama.jpeg",
         away_logo_url  = "logos/teamb.jpeg",
         status         = "upcoming",
-        scorer_options = "No Goal, ...",          # ← real squad list
+        scorer_options = "No Goal, ...",          
     ),
-    # Add as many Match(...) entries here as needed for this round
+    # Add as many Match(...) 
 ]
-# ────────────────────────────────────────────────────────────────────
+# END ------------------------------------------------------
 
 
 def run():
