@@ -38,8 +38,10 @@ A mobile-first football prediction platform built with Flask, where friends comp
 │   └── leaderboard.py      # Leaderboard view
 │
 ├── ml_model/
-│   └── model.py            # Sigmoid-based outcome probability model
-│
+│   ├── dataset1.csv            # football dataset from kaggle
+│   ├── dataset2.csv
+|   ├── train.py                # trains the logistic regression model
+|   └── model.py                # predicts model the output
 ├── templates/
 │   ├── base.html
 │   ├── login.html
