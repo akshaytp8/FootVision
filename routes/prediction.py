@@ -1,19 +1,3 @@
-"""
-routes/prediction.py
---------------------
-Dashboard and prediction form.
-
-AUTO-LOCK LOGIC (VIVA explanation):
-  Every time a user opens the predict page, the server checks:
-    current IST time  >=  match kickoff time?
-  If YES → predictions are locked automatically.
-  No cron jobs or schedulers needed — it just checks the clock.
-
-Routes:
-  GET       /dashboard          → list all matches
-  GET/POST  /predict/<match_id> → submit prediction
-"""
-
 from flask import (Blueprint, render_template, request,
                    redirect, url_for, flash, session)
 from extensions import db
