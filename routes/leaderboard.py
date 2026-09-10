@@ -1,11 +1,3 @@
-"""
-routes/leaderboard.py
----------------------
-Shows all users ranked by total points.
-
-Route:  GET /leaderboard
-"""
-
 from flask import Blueprint, render_template, session, redirect, url_for, flash
 from models import UserScore, User
 
