@@ -1,10 +1,6 @@
 """
-remove_match.py
-----------------
 Removes match(es) from the live database, by ID. Also deletes any
-predictions tied to those matches (required — otherwise they'd point
-to a match that no longer exists). NEVER touches `users` or
-`user_scores` — nobody's total points change, ever.
+predictions tied to those matches.
 
 HOW TO USE
 ----------
