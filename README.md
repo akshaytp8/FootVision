@@ -1,6 +1,6 @@
-# ⚽ FootVision — FIFA World Cup 2026 Prediction Game
+# ⚽ FootVision — Prediction Game
 
-A mobile-first football prediction platform built with Flask, where friends compete to predict match results across the entire FIFA World Cup 2026 bracket — from the Round of 32 all the way to the Final.
+A football prediction platform built with Flask, where friends compete to predict match results across the entire FIFA World Cup 2026 bracket — from the Round of 32 all the way to the Final.
 
 ---
 
