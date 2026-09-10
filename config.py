@@ -1,9 +1,3 @@
-"""
-config.py
----------
-App settings. That's it.
-"""
-
 import os
 
 
