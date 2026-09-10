@@ -1,6 +1,4 @@
 """
-update_result.py
-----------------
 Run this after a match ends to enter the result and award points.
 
 STEPS:
@@ -8,24 +6,19 @@ STEPS:
   2. Save the file
   3. Run:  python update_result.py
   4. Type "yes" to confirm
-
-MATCH IDs:
-  1 → Arsenal vs Atletico Madrid    (6 May 2026)
-  2 → Bayern Munich vs PSG          (7 May 2026)
-  3 → FC Barcelona vs Real Madrid   (11 May 2026)
-  4 → UCL Final                     (30 May 2026)
+  
 """
 
-# ── EDIT THESE 4 LINES ───────────────────────────────────────────
+# EDIT THESE 4 LINES -------------------------------------------------
 
 from datetime import datetime
 from models import Match, Prediction, UserScore
 from extensions import db
 from app import create_app
 MATCH_ID = 2
-HOME_SCORE = 4   # 90 min + ET 30 min, score — used for points
+HOME_SCORE = 4   
 AWAY_SCORE = 3
-# must match exactly with scorer_options in seed_data.py for points to be awarded
+
 ACTUAL_SCORER = "Robert Lewandowski (FCB)"
 
 ACTUAL_OUTCOME = "home_win"
@@ -35,7 +28,7 @@ ACTUAL_OUTCOME = "home_win"
 PENALTY_HOME = None
 PENALTY_AWAY = None
 
-# ─────────────────────────────────────────────────────────────────
+# END ------------------------------------------------------------------
 
 
 def run():
