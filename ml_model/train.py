@@ -1,13 +1,5 @@
-"""
-ml_model/train.py
------------------
-Trains a simple ML model using dataset1.csv and dataset2.csv.
+# Trains a simple ML model using dataset1.csv and dataset2.csv.
 
-RUN ONCE before starting the web app:
-  python ml_model/train.py
-
-Saves trained_model.pkl and scaler.pkl to ml_model/ folder.
-"""
 
 import os
 import pandas as pd
