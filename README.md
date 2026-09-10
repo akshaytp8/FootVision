@@ -217,15 +217,10 @@ The World Cup runs in stages. This is the recommended workflow:
 |---|---|
 | Backend | Python 3, Flask |
 | Database | SQLite + SQLAlchemy ORM |
-| Frontend | Jinja2 templates, vanilla CSS, vanilla JS |
+| Frontend | Jinja2 templates, CSS, JS |
 | Hosting | PythonAnywhere (free tier) |
-| ML Model | Pure Python (math.sigmoid — no external ML libraries) |
+| ML Model | Logistic regression |
 
----
-
-## 📄 License
-
-MIT License — free to use, fork, and modify.
 
 ---
 
