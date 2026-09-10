@@ -1,8 +1,5 @@
 """
-ml_model/model.py
------------------
 Loads the pre-trained model and predicts match outcome.
-Called by routes/prediction.py for every prediction page.
 """
 
 import os
