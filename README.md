@@ -75,7 +75,8 @@ flask run
 
 ## What I'd improve if I kept working on this
 
-- The ML model is pretty basic — Elo + logistic regression. A more interesting version would pull in recent form, home advantage, or player-level data instead of just team ratings.
+- Add a well secured Admin panel for easy use.
+- The ML model is pretty basic - Elo + logistic regression. A more interesting version would pull in recent form, home advantage, or player-level data instead of just team ratings.
 - No automated tests yet. Would want to at least cover the scoring logic since that's the core of the whole app.
 - The "instant re-seed on every app restart" behaviour in app.py is a leftover from early development — should be a one-time setup step instead.
 - Would like to add password reset via email instead of the security-question approach.
