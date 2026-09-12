@@ -1,3 +1,4 @@
+import os
 from flask import Flask
 from config import Config
 from extensions import db, bcrypt
@@ -27,4 +28,4 @@ def create_app():
 
 if __name__ == "__main__":
     app = create_app()
-    app.run(debug=True)
+    app.run(debug=os.environ.get("FLASK_DEBUG", "false").lower() == "true")
