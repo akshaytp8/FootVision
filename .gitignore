@@ -1,0 +1,10 @@
+__pycache__/
+venv/
+.env
+instance/
+*.db
+*.sqlite3
+.vscode/
+.idea/
+.DS_Store
+*.log
