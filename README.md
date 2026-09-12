@@ -1,146 +1,92 @@
-# ⚽ FootVision — Prediction Game
+# FootVision
 
-A football prediction platform built with Flask, where friends compete to predict match results across the entire FIFA World Cup 2026 bracket — from the Round of 32 all the way to the Final.
+A football prediction app I built for the World Cup 2026. Basically, me and my friends predict match results (score, outcome, first goalscorer) and compete on a leaderboard.
 
----
-> Hosted on [PythonAnywhere](https://www.pythonanywhere.com)  
-> `https://FootVision.pythonanywhere.com`
+Live at: https://FootVision.pythonanywhere.com
 
----
+## Why I built this
 
-## Features
+I wanted a project that combined a web app with something ML-related, and a prediction game felt like a fun way to do both. Also wanted an excuse to actually finish a full project end to end (auth, database, frontend, deployed) instead of leaving it half done.
 
-- **Secure accounts** — register with a username, 4-digit PIN, and an optional security question for password recovery
-- **Match schedule** — all World Cup 2026 fixtures from Round of 32 to the Final
-- **ML outcome predictor** — mathematical model shows predicted Win / Draw / Loss % before you submit
-- **Predictions** — pick the score, outcome, and first goalscorer for each match
-- **Auto-lock** — predictions lock automatically at kickoff time
-- **Live leaderboard** — real-time points table with rank, streak, and accuracy
-- **Dark FIFA theme** — deep navy / FIFA red colour palette, optimised for mobile
+## What it does
 
----
+- Sign up with a username + PIN (plus a security question for password recovery)
+- See all World Cup 2026 matches from Round of 32 to the Final
+- Before you predict, a logistic regression model shows a rough Win/Draw/Loss % based on team Elo ratings
+- Predict the score, outcome, and first goalscorer for each match
+- Predictions lock automatically once the match kicks off
+- Leaderboard updates live with points, streaks, and accuracy
 
-## 🗃️ Project Structure
-
-```
-├── app.py                  # App factory, blueprint registration
-├── extensions.py           # SQLAlchemy instance
-├── models.py               # User, Match, Prediction, UserScore
-├── seed_data.py            # Initial match data (Round of 32)
-├── update_result.py        # Mark a match completed, score predictions
-│
-├── routes/
-│   ├── auth.py             # Register, login, logout, forgot password
-│   ├── prediction.py       # Dashboard, make/edit prediction
-│   └── leaderboard.py      # Leaderboard view
-│
-├── ml_model/
-│   ├── dataset1.csv            # football dataset from kaggle
-│   ├── dataset2.csv
-|   ├── train.py                # trains the logistic regression model
-|   └── model.py                # predicts model the output
-├── templates/
-│   ├── base.html
-│   ├── login.html
-│   ├── register.html
-│   ├── dashboard.html
-│   ├── prediction.html
-│   ├── leaderboard.html
-│   └── forgot_password.html
-│
-├── static/
-│   ├── css/style.css       # Dark WC2026 theme
-│   ├── js/main.js
-│   └── images/logos/       # Team flag/crest images (.jpeg)
-│
-├── admin/
-│   ├── add_match.py        # Add new round's matches to live DB
-│   ├── remove_match.py     # Remove match(es) by ID from live DB
-│   ├── migrate_matches.py  # Swap entire match list (one-time use)
-│   └── wipe_users.py       # Reset all user accounts (keep matches)
-│
-└── database.db             # SQLite database (gitignored)
-```
-
----
-
-ML Model
-
-The predictor in `ml_model` uses a logistic regression model.
-
-1. Retrieve the latest Elo ratings for both teams.
-2. Compute the Elo difference.
-3. Generate the feature vector.
-4. Scale the input using the saved scaler.
-5. Pass the features to the trained Logistic Regression model.
-6. Obtain class probabilities using predict_proba().
-7. Convert probabilities into percentage values for:
-Home Win
-Draw
-Away Win
-8. Apply a minimum probability threshold to avoid extremely low confidence predictions and normalize the probabilities so they sum to 100%.
-
----
-
-Scoring System
+## How scoring works
 
 | Prediction | Points |
 |---|---|
-| Correct outcome (W/D/L) | +20 |
-| Exact score | +70 |
-| Correct first goalscorer | +35 |
-| Correct goal difference | +30 |
+| Correct outcome (win/draw/loss) | 20 |
+| Correct goal difference | 30 |
+| Correct first goalscorer | 35 |
+| Exact score | 70 |
 
----
+## Project structure
 
-## 🚀 Local Setup
+app.py # creates the Flask app, registers routes
+extensions.py # database setup
+models.py # User, Match, Prediction, UserScore tables
+seed_data.py # loads the initial match list
+update_result.py # scores predictions once a match finishes
 
-```bash
-# 1. Clone the repo
-git clone https://github.com/yourusername/footvision.git
-cd footvision
+routes/
+auth.py # login, register, forgot password
+prediction.py # dashboard + making predictions
+leaderboard.py # leaderboard page
 
-# 2. Create a virtual environment and install dependencies
+ml_model/
+train.py # trains the logistic regression model
+model.py # loads the model and returns predictions
+dataset1.csv, dataset2.csv # match data from Kaggle used for training
+
+templates/ # HTML pages
+static/ # CSS, JS, team logos
+
+
+## How the prediction model works
+
+1. Look up each team's Elo rating
+2. Take the difference between the two
+3. Turn that into a feature vector and scale it
+4. Feed it into the trained logistic regression model
+5. Get back probabilities for home win / draw / away win
+6. Clean up the numbers so they don't show anything unrealistically low, and make sure they add up to 100%
+
+It's a simple model — not meant to be a serious predictor, more of a fun feature to see before you lock in your own guess.
+
+## Running it locally
+
+git clone https://github.com/akshaytp8/FootVision.git
+cd FootVision
 python3 -m venv venv
-source venv/bin/activate        # Windows: venv\Scripts\activate
+source venv/bin/activate
 pip install -r requirements.txt
 
-# 3. Set environment variable for Flask secret key
-export SECRET_KEY="your-secret-key-here"
+create a .env file (see .env.example) and set SECRET_KEY
 
-# 4. Initialise the database and seed matches
 python3 -c "from app import create_app; from extensions import db; app = create_app(); app.app_context().push(); db.create_all()"
-python3 -c "from app import create_app; from seed_data import seed_matches; app = create_app(); app.app_context().push(); seed_matches()"
-
-# 5. Run locally
 flask run
-```
+
+
+## What I'd improve if I kept working on this
+
+- The ML model is pretty basic — Elo + logistic regression. A more interesting version would pull in recent form, home advantage, or player-level data instead of just team ratings.
+- No automated tests yet. Would want to at least cover the scoring logic since that's the core of the whole app.
+- The "instant re-seed on every app restart" behaviour in app.py is a leftover from early development — should be a one-time setup step instead.
+- Would like to add password reset via email instead of the security-question approach.
+
+## Tech used
+
+- Backend: Python, Flask
+- Database: SQLite + SQLAlchemy
+- Frontend: Jinja2 templates, plain CSS/JS
+- Hosting: PythonAnywhere
+- Model: scikit-learn logistic regression
 
 ---
-
-## Security 
-
-- Passwords are stored as hashed values (Werkzeug `generate_password_hash`)
-- Security answers are also hashed — never stored in plain text
-- Sessions are server-side signed with Flask's secret key
-- Predictions lock automatically at kickoff — no manual intervention needed
-
----
-
-## Tech 
-
-| Layer | Technology |
-|---|---|
-| Backend | Python 3, Flask |
-| Database | SQLite + SQLAlchemy ORM |
-| Frontend | Jinja2 templates, CSS, JS |
-| Hosting | PythonAnywhere (free tier) |
-| ML Model | Logistic regression |
-
-
----
-
-## 👤 Author
-
-Built for the FIFA World Cup 2026 by **Akshay T P**  
-Final year project — Football Prediction Platform with ML-based outcome modelling
+Built by Akshay T P.
